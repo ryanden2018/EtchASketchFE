@@ -230,6 +230,6 @@ document.addEventListener("DOMContentLoaded", e=>{
       pointerX:Math.round(width/2), pointerY:Math.round(height/2)});
 
   let gridDiv = document.getElementById('grid')
-   gridDiv.append(sketch.render());
+   gridDiv.append(pageSketch.render());
   
 });
