@@ -6,6 +6,8 @@ class Sketch {
     this.width = sketch.width;
     this.height = sketch.height;
     this.image = this.parseString(sketch.data);
+    this.pointerX = Math.round(this.width/2);
+    this.pointerY = Math.round(this.height/2);
   }
 
   static unsetColor() { return "grey"; }
@@ -70,7 +72,6 @@ class Sketch {
         }
       }
     }
-
     return this.div;
   }
 
@@ -78,59 +79,108 @@ class Sketch {
   update() {
     for(let i=0; i<this.height; i++) {
       for(let j=0; j<this.width; j++) {
-        let pxDiv = document.querySelector(`#p${i}_${j}`);
-        if(pxDiv && (this.image[i][j] === 0)) {
-          pxDiv.style = `display:none;`;
-        } else if(pxDiv && (this.image[i][j] === 1)) {
-          pxDiv.style = Sketch.pixelStyleString(i,j,Sketch.setColor());
-        } else { // pxDiv is null
-          if(this.image[i][j] === 1) {
-            pxDiv = document.createElement("div");
-            pxDiv.id = `p${i}_${j}`;
-            pxDiv.style = Sketch.pixelStyleString(i,j,Sketch.setColor());
-            this.div.append(pxDiv);
-          }
-        }
+        this.updatePixel(i,j);
       }
     }
+  }
+
+  // update the rendering of pixel at (i,j)
+  updatePixel(i,j) {
+    let pxDiv = document.querySelector(`#p${i}_${j}`);
+    if(pxDiv && (this.image[i][j] === 0)) {
+      pxDiv.style = `display:none;`;
+    } else if(pxDiv && (this.image[i][j] === 1)) {
+      pxDiv.style = Sketch.pixelStyleString(i,j,Sketch.setColor());
+    } else { // pxDiv is null
+      if(this.image[i][j] === 1) {
+        pxDiv = document.createElement("div");
+        pxDiv.id = `p${i}_${j}`;
+        pxDiv.style = Sketch.pixelStyleString(i,j,Sketch.setColor());
+        this.div.append(pxDiv);
+      }
+    }
+  }
+
+  // increment/decrement pointer X position
+  incrementX() {
+    this.image[this.pointerY][this.pointerX] = 1;
+    this.updatePixel(this.pointerY,this.pointerX);
+    this.pointerX = Math.min(this.pointerX+1,this.width);
+  }
+  decrementX() {
+    this.image[this.pointerY][this.pointerX] = 1;
+    this.updatePixel(this.pointerY,this.pointerX);
+    this.pointerX = Math.max(this.pointerX-1,0);
+  }
+
+  // increment/decrement pointer Y position
+  incrementY() {
+    this.image[this.pointerY][this.pointerX] = 1;
+    this.updatePixel(this.pointerY,this.pointerX);
+    this.pointerY = Math.min(this.pointerY+1,this.height);
+  }
+  decrementY() {
+    this.image[this.pointerY][this.pointerX] = 1;
+    this.updatePixel(this.pointerY,this.pointerX);
+    this.pointerY = Math.max(this.pointerY-1,0);
   }
 }
 
 
 //////////////////////////////////////////////
 
+let b;
+
+document.addEventListener('keydown', e=>{
+  switch(e.code) {
+    case 'ArrowUp':
+      b.decrementY();
+      break;
+    case 'ArrowDown':
+      b.incrementY();
+      break;
+    case 'ArrowLeft':
+      b.decrementX();
+      break;
+    case 'ArrowRight':
+      b.incrementX();
+      break;
+  }
+});
+
+
 // document load callback
 document.addEventListener("DOMContentLoaded", e=>{
   // Testing Code
   let width = 412;
   let height = 277;
-  let b = new Sketch( {width:width,height:height,data:Sketch.zeroData(width,height)});
-  document.body.append(b.render());
-  for(let i=0; i<height; i++) {
-    for(let j=0; j<width; j++) {
-      if(i === j) {
-        b.image[i][j] = 1;
-      }
-    }
-  }
-  b.update();
-  for(let i=0; i<height; i++) {
-    for(let j=0; j<width; j++) {
-      if((i === j) && (i > 100)) {
-        b.image[i][j] = 0;
-      }
-      if(i === 200-j) {
-        b.image[i][j] = 1;
-      }
-    }
-  }
-  b.update();
-  for(let i=0; i<height; i++) {
-    for(let j=0; j<width; j++) {
-      if((i === j) && (i > 150)) {
-        b.image[i][j] = 1;
-      }
-    }
-  }
-  b.update();
+  b = new Sketch( {width:width,height:height,data:Sketch.zeroData(width,height)});
+   document.body.append(b.render());
+  // for(let i=0; i<height; i++) {
+  //   for(let j=0; j<width; j++) {
+  //     if(i === j) {
+  //       b.image[i][j] = 1;
+  //     }
+  //   }
+  // }
+  // b.update();
+  // for(let i=0; i<height; i++) {
+  //   for(let j=0; j<width; j++) {
+  //     if((i === j) && (i > 100)) {
+  //       b.image[i][j] = 0;
+  //     }
+  //     if(i === 200-j) {
+  //       b.image[i][j] = 1;
+  //     }
+  //   }
+  // }
+  // b.update();
+  // for(let i=0; i<height; i++) {
+  //   for(let j=0; j<width; j++) {
+  //     if((i === j) && (i > 150)) {
+  //       b.image[i][j] = 1;
+  //     }
+  //   }
+  // }
+  // b.update();
 });
