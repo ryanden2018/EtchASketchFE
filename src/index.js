@@ -129,62 +129,42 @@ class Sketch {
 
 //////////////////////////////////////////////
 
-let b;
+let sketch;
+
+let keycodes = {};
 
 document.addEventListener('keydown', e=>{
-  switch(e.code) {
-    case 'ArrowUp':
-    case 'KeyW':
-      b.decrementY();
-      break;
-    case 'ArrowDown':
-    case 'KeyS':
-      b.incrementY();
-      break;
-    case 'ArrowLeft':
-    case 'KeyA':
-      b.decrementX();
-      break;
-    case 'ArrowRight':
-    case 'KeyD':
-      b.incrementX();
-      break;
+  keycodes[e.code] = 1;
+  for( code in keycodes) {
+    switch(code) {
+      case 'ArrowUp':
+      case 'KeyW':
+        sketch.decrementY();
+        break;
+      case 'ArrowDown':
+      case 'KeyS':
+        sketch.incrementY();
+        break;
+      case 'ArrowLeft':
+      case 'KeyA':
+        sketch.decrementX();
+        break;
+      case 'ArrowRight':
+      case 'KeyD':
+        sketch.incrementX();
+        break;
+    }
   }
 });
 
+document.addEventListener('keyup',e=>{
+  delete keycodes[e.code];
+});
 
 // document load callback
 document.addEventListener("DOMContentLoaded", e=>{
-  // Testing Code
   let width = 412;
   let height = 277;
-  b = new Sketch( {width:width,height:height,data:Sketch.zeroData(width,height)});
-   document.body.append(b.render());
-  // for(let i=0; i<height; i++) {
-  //   for(let j=0; j<width; j++) {
-  //     if(i === j) {
-  //       b.image[i][j] = 1;
-  //     }
-  //   }
-  // }
-  // b.update();
-  // for(let i=0; i<height; i++) {
-  //   for(let j=0; j<width; j++) {
-  //     if((i === j) && (i > 100)) {
-  //       b.image[i][j] = 0;
-  //     }
-  //     if(i === 200-j) {
-  //       b.image[i][j] = 1;
-  //     }
-  //   }
-  // }
-  // b.update();
-  // for(let i=0; i<height; i++) {
-  //   for(let j=0; j<width; j++) {
-  //     if((i === j) && (i > 150)) {
-  //       b.image[i][j] = 1;
-  //     }
-  //   }
-  // }
-  // b.update();
+  sketch = new Sketch( {width:width,height:height,data:Sketch.zeroData(width,height)});
+  document.body.append(sketch.render());
 });
