@@ -19,7 +19,7 @@ class Sketch {
   // make a string of zeros corresponding to an image of dimension (width,height)
   static zeroData(width,height) {
     let result = "";
-    for(i=0; i<width*height; i++) {
+    for(var i=0; i<width*height; i++) {
       result += "0";
     }
     return result;
@@ -82,5 +82,7 @@ class Sketch {
 document.addEventListener("DOMContentLoaded", e=>{
   // Testing Code
   let b = new Sketch( {width:5,height:5,data:"0000000111101011111100000"});
-  document.body.append(b.render());
+  
+  let etchDiv = document.getElementById("etch")
+  etchDiv.append(b.render());
 });
