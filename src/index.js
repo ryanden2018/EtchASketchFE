@@ -160,7 +160,8 @@ document.addEventListener("DOMContentLoaded", e=>{
   let width = 412;
   let height = 277;
   b = new Sketch( {width:width,height:height,data:Sketch.zeroData(width,height)});
-   document.body.append(b.render());
+  let gridDiv = document.getElementById('grid')
+   gridDiv.append(b.render());
   // for(let i=0; i<height; i++) {
   //   for(let j=0; j<width; j++) {
   //     if(i === j) {
