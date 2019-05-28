@@ -2,7 +2,17 @@
 // holds data for a Sketch and provides rendering functionality
 
 class Sketch {
+  // initialize a fresh object
   constructor(sketch) {
+    this.width = sketch.width;
+    this.height = sketch.height;
+    this.image = this.parseString(sketch.data);
+    this.pointerX = sketch.pointerX;
+    this.pointerY = sketch.pointerY;
+  }
+
+  // reset the object to the properties of given sketch
+  resetData(sketch) {
     this.width = sketch.width;
     this.height = sketch.height;
     this.image = this.parseString(sketch.data);
@@ -132,11 +142,51 @@ class Sketch {
 }
 
 
+
+//////////////////////////////////////////////
+// fetches
 //////////////////////////////////////////////
 
-let sketch;
+// load sketch given by sketch id
+function getSketch(sketchId) {
+  fetch(`${baseUrl}/${sketchId}`)
+  .then( res => res.json() )
+  .then( data => {pageSketch.resetData(data);pageSketch.update();} );
+}
 
+// save current sketch to user_id (post)
+function postSketch(userId) {
+  fetch(`${baseUrl}`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json',
+              'Accept': 'application/json' },
+    body: JSON.stringify( Object.assign(pageSketch.generateData(),{user_id:userId}) )
+  })
+}
+
+// save current sketch to sketch_id (patch)
+function patchSketch(sketchId) {
+  fetch(`${baseUrl}/${sketchId}`, {
+    method:'PATCH',
+    headers:{'Content-Type':'application/json',
+            'Accept':'application/json' },
+    body: JSON.stringify( pageSketch.generateData() )
+  });
+}
+
+
+//////////////////////////////////////////////
+// globals
+//////////////////////////////////////////////
+
+let pageSketch;
 let keycodes = {};
+const baseUrl = "http://localhost:3000/api/v1/sketches"
+
+
+//////////////////////////////////////////////
+// document-level event listeners
+//////////////////////////////////////////////
 
 document.addEventListener('keydown', e=>{
   keycodes[e.code] = 1;
@@ -144,19 +194,19 @@ document.addEventListener('keydown', e=>{
     switch(code) {
       case 'ArrowUp':
       case 'KeyW':
-        sketch.decrementY();
+        pageSketch.decrementY();
         break;
       case 'ArrowDown':
       case 'KeyS':
-        sketch.incrementY();
+        pageSketch.incrementY();
         break;
       case 'ArrowLeft':
       case 'KeyA':
-        sketch.decrementX();
+        pageSketch.decrementX();
         break;
       case 'ArrowRight':
       case 'KeyD':
-        sketch.incrementX();
+        pageSketch.incrementX();
         break;
     }
   }
@@ -166,7 +216,7 @@ document.addEventListener('keyup',e=>{
   delete keycodes[e.code];
 });
 
-// document load callback
+
 document.addEventListener("DOMContentLoaded", e=>{
 
 
@@ -176,10 +226,10 @@ document.addEventListener("DOMContentLoaded", e=>{
 
   let width = 412;
   let height = 277;
-  sketch = new Sketch( {width:width,height:height,data:Sketch.zeroData(width,height),
+  pageSketch = new Sketch( {width:width,height:height,data:Sketch.zeroData(width,height),
       pointerX:Math.round(width/2), pointerY:Math.round(height/2)});
+
   let gridDiv = document.getElementById('grid')
    gridDiv.append(sketch.render());
   
-
 });
