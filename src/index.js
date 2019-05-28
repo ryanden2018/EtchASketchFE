@@ -169,45 +169,17 @@ document.addEventListener('keyup',e=>{
 // document load callback
 document.addEventListener("DOMContentLoaded", e=>{
 
-  // Testing Code
 
-  let width = 412;
-  let height = 277;
-  b = new Sketch( {width:width,height:height,data:Sketch.zeroData(width,height)});
-  let gridDiv = document.getElementById('grid')
-   gridDiv.append(b.render());
-  // for(let i=0; i<height; i++) {
-  //   for(let j=0; j<width; j++) {
-  //     if(i === j) {
-  //       b.image[i][j] = 1;
-  //     }
-  //   }
-  // }
-  // b.update();
-  // for(let i=0; i<height; i++) {
-  //   for(let j=0; j<width; j++) {
-  //     if((i === j) && (i > 100)) {
-  //       b.image[i][j] = 0;
-  //     }
-  //     if(i === 200-j) {
-  //       b.image[i][j] = 1;
-  //     }
-  //   }
-  // }
-  // b.update();
-  // for(let i=0; i<height; i++) {
-  //   for(let j=0; j<width; j++) {
-  //     if((i === j) && (i > 150)) {
-  //       b.image[i][j] = 1;
-  //     }
-  //   }
-  // }
-  // b.update();
+
+
+  
 
   let width = 412;
   let height = 277;
   sketch = new Sketch( {width:width,height:height,data:Sketch.zeroData(width,height),
       pointerX:Math.round(width/2), pointerY:Math.round(height/2)});
-  document.body.append(sketch.render());
+  let gridDiv = document.getElementById('grid')
+   gridDiv.append(sketch.render());
+  
 
 });
