@@ -230,6 +230,7 @@ document.addEventListener("DOMContentLoaded", e=>{
   pageSketch = new Sketch( {width:width,height:height,data:Sketch.zeroData(width,height),
       pointerX:Math.round(width/2), pointerY:Math.round(height/2)});
   let gridDiv = document.getElementById('grid')
+
   
   let resziedRender = pageSketch.render()
   resziedRender.style.width = `${(parseInt(resziedRender.style.width.split("px")[0])+130)}px`
@@ -250,6 +251,4 @@ document.addEventListener("DOMContentLoaded", e=>{
   
    gridDiv.append(resziedRender);
    
-   
-  
 });
