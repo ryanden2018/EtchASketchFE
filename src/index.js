@@ -105,7 +105,7 @@ class Sketch {
   incrementX() {
     this.image[this.pointerY][this.pointerX] = 1;
     this.updatePixel(this.pointerY,this.pointerX);
-    this.pointerX = Math.min(this.pointerX+1,this.width);
+    this.pointerX = Math.min(this.pointerX+1,this.width-1);
   }
   decrementX() {
     this.image[this.pointerY][this.pointerX] = 1;
@@ -117,7 +117,7 @@ class Sketch {
   incrementY() {
     this.image[this.pointerY][this.pointerX] = 1;
     this.updatePixel(this.pointerY,this.pointerX);
-    this.pointerY = Math.min(this.pointerY+1,this.height);
+    this.pointerY = Math.min(this.pointerY+1,this.height-1);
   }
   decrementY() {
     this.image[this.pointerY][this.pointerX] = 1;
