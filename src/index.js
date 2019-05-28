@@ -6,8 +6,8 @@ class Sketch {
     this.width = sketch.width;
     this.height = sketch.height;
     this.image = this.parseString(sketch.data);
-    this.pointerX = Math.round(this.width/2);
-    this.pointerY = Math.round(this.height/2);
+    this.pointerX = sketch.pointerX;
+    this.pointerY = sketch.pointerY;
   }
 
   static unsetColor() { return "grey"; }
@@ -20,6 +20,11 @@ class Sketch {
 
   static pixelStyleString(i,j,color) {
     return `position:absolute;width:${Sketch.pxw()}px;height:${Sketch.pxh()}px;top:${i*Sketch.pxh()}px;left:${j*Sketch.pxw()}px;background:${color}`;
+  }
+
+  // return object which can be persisted to database
+  generateData() {
+    return {width:this.width, height:this.height, pointerX:this.pointerX, pointerY:this.pointerY, data:this.generateString() };
   }
 
   // make a string of zeros corresponding to an image of dimension (width,height)
@@ -60,7 +65,7 @@ class Sketch {
   // this should only be called once, see update()
   render() {
     this.div = document.createElement("div");
-    this.div.style = `position:absolute;width:${this.width*Sketch.pxw()}px;height:${this.height*Sketch.pxh()}px;background:${Sketch.unsetColor()};`;
+    this.div.style = `position:relative;width:${this.width*Sketch.pxw()}px;height:${this.height*Sketch.pxh()}px;background:${Sketch.unsetColor()};`;
 
     for( let i = 0; i < this.height; i++) {
       for( let j = 0; j < this.width; j++) {
@@ -165,6 +170,7 @@ document.addEventListener('keyup',e=>{
 document.addEventListener("DOMContentLoaded", e=>{
   let width = 412;
   let height = 277;
-  sketch = new Sketch( {width:width,height:height,data:Sketch.zeroData(width,height)});
+  sketch = new Sketch( {width:width,height:height,data:Sketch.zeroData(width,height),
+      pointerX:Math.round(width/2), pointerY:Math.round(height/2)});
   document.body.append(sketch.render());
 });
