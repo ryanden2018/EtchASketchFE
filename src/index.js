@@ -8,6 +8,14 @@ class Sketch {
     this.image = this.parseString(sketch.data);
   }
 
+  static unsetColor() { return "grey"; }
+
+  static setColor() { return "black"; }
+
+  static pxw() { return 20; }
+
+  static pxh() { return 20; }
+
   // create image representation from string data
   parseString(data) {
     let results = []
@@ -34,19 +42,16 @@ class Sketch {
   // return a div containing representation of the image data
   render() {
     this.div = document.createElement("div");
-    this.div.style = "position:absolute;top:100px;left:100px;";
-    let pxw = 20;
-    let pxh = 20;
 
     for( let i = 0; i < this.height; i++) {
       for( let j = 0; j < this.width; j++) {
         let pxDiv = document.createElement("div");
         pxDiv.id = ("" + i) + (" " + j);
-        let color = "gray";
+        let color = Sketch.unsetColor();
         if(this.image[i][j] === 1) {
-          color = "black";
+          color = Sketch.setColor();
         }
-        pxDiv.style = "position:absolute;width:"+pxw+"px;height:"+pxh+"px;top:"+(i*pxh)+"px;left:"+(j*pxw)+"px;background:"+color;
+        pxDiv.style = "position:absolute;width:"+Sketch.pxw()+"px;height:"+Sketch.pxh()+"px;top:"+(i*Sketch.pxh())+"px;left:"+(j*Sketch.pxw())+"px;background:"+color;
         this.div.append(pxDiv);
       }
     }
