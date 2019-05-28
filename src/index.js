@@ -76,7 +76,8 @@ class Sketch {
   render() {
     this.div = document.createElement("div");
     this.div.style = `position:relative;width:${this.width*Sketch.pxw()}px;height:${this.height*Sketch.pxh()}px;background:${Sketch.unsetColor()};`;
-
+    this.div.id="gd"
+    
     for( let i = 0; i < this.height; i++) {
       for( let j = 0; j < this.width; j++) {
         if(this.image[i][j] === 1) {
@@ -228,8 +229,26 @@ document.addEventListener("DOMContentLoaded", e=>{
   let height = 277;
   pageSketch = new Sketch( {width:width,height:height,data:Sketch.zeroData(width,height),
       pointerX:Math.round(width/2), pointerY:Math.round(height/2)});
-
   let gridDiv = document.getElementById('grid')
-   gridDiv.append(pageSketch.render());
+
   
+  let resziedRender = pageSketch.render()
+  resziedRender.style.width = `${(parseInt(resziedRender.style.width.split("px")[0])+130)}px`
+  resziedRender.style.height = `${(parseInt(resziedRender.style.height.split("px")[0])+130)}px`
+  
+  let knob=document.createElement('x-knob')
+  let knob2=document.createElement('x-knob')
+  knob.style="position:absolute; right:-3rem; top:31rem;z-index:1;"
+  knob.setAttribute("class","big")
+
+  knob2.style="position:absolute; left:-3rem; top:31rem;z-index:1;"
+  knob2.setAttribute("class","big")
+  
+  
+  resziedRender.append(knob)
+  resziedRender.append(knob2)
+  
+  
+   gridDiv.append(resziedRender);
+   
 });
