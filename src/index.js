@@ -16,6 +16,15 @@ class Sketch {
 
   static pxh() { return 20; }
 
+  // make a string of zeros corresponding to an image of dimension (width,height)
+  static zeroData(width,height) {
+    let result = "";
+    for(i=0; i<width*height; i++) {
+      result += "0";
+    }
+    return result;
+  }
+
   // create image representation from string data
   parseString(data) {
     let results = []
@@ -40,6 +49,7 @@ class Sketch {
   }
 
   // return a div containing representation of the image data
+  // this should only be called once, see update()
   render() {
     this.div = document.createElement("div");
 
@@ -60,6 +70,7 @@ class Sketch {
   }
 
   // update this.div to reflect altered internal state
+  // warning: 
   update() {
   }
 }
