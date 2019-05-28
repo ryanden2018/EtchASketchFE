@@ -40,7 +40,7 @@ class Sketch {
   // make a string of zeros corresponding to an image of dimension (width,height)
   static zeroData(width,height) {
     let result = "";
-    for(let i=0; i<width*height; i++) {
+    for(var i=0; i<width*height; i++) {
       result += "0";
     }
     return result;
@@ -218,9 +218,18 @@ document.addEventListener('keyup',e=>{
 
 
 document.addEventListener("DOMContentLoaded", e=>{
+
+
+
+
+  
+
   let width = 412;
   let height = 277;
   pageSketch = new Sketch( {width:width,height:height,data:Sketch.zeroData(width,height),
       pointerX:Math.round(width/2), pointerY:Math.round(height/2)});
-  document.body.append(pageSketch.render());
+
+  let gridDiv = document.getElementById('grid')
+   gridDiv.append(sketch.render());
+  
 });
