@@ -134,15 +134,19 @@ let b;
 document.addEventListener('keydown', e=>{
   switch(e.code) {
     case 'ArrowUp':
+    case 'KeyW':
       b.decrementY();
       break;
     case 'ArrowDown':
+    case 'KeyS':
       b.incrementY();
       break;
     case 'ArrowLeft':
+    case 'KeyA':
       b.decrementX();
       break;
     case 'ArrowRight':
+    case 'KeyD':
       b.incrementX();
       break;
   }
