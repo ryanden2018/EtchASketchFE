@@ -276,5 +276,21 @@ document.addEventListener("DOMContentLoaded", e=>{
   
   
    gridDiv.append(resziedRender);
-
+   
+   let dropMenu=document.querySelector('#dropdownMenuButton')
+   
+   let allAs = document.querySelectorAll('a')
+   allAs.forEach(a=>{
+     a.addEventListener("click",function(e){
+       e.preventDefault()
+       console.log(e.target.innerText)
+       dropMenu.innerText=e.target.innerText
+       
+     })
+   })
+   
+   
+   
+   
+// DOMContentLoaded--------------------------------------------------------------
 });

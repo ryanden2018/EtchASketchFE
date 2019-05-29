@@ -6,8 +6,11 @@
     <link rel="stylesheet" href="./src/styles.css">
     <link href="./src/xknob.css" type="text/css" rel="stylesheet">
     <meta charset="UTF-8">
-    <title>Etch-A-Ryan</title>
+    <title>Etch-A-Fetch</title>
     
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900,900i&display=swap" rel="stylesheet">
+    
+    <link rel="icon" href="./src/etch-a-sketch.png">
     
     <!--svg----------------------------->
     
@@ -359,6 +362,32 @@
   </head>
   <body>
     
+    <nav class="navbar navbar-dark bg-dark">
+  <!-- Navbar content -->
+  
+	<!-- Example split danger button -->
+		<div class="dropdown nav-item">
+  			<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+   				 Select a User
+  			</button>
+		  	<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+			    <a class="dropdown-item" href="#">User1</a>
+			    <a class="dropdown-item" href="#">User2</a>
+			    <a class="dropdown-item" href="#">User3</a>
+		  </div>
+		</div>
+		
+		<!--user create------------------------------------->
+		
+		<div class="nav-item">
+			<form class="form-inline">
+			<input type="text" id="userCreate" placeholder="Username">
+			<button type="submit" class="btn btn-primary">Create User</button>
+			</form>
+		</div>
+  
+  
+	</nav>
     
     <!--top of etch-->
 
@@ -366,7 +395,6 @@
     <!--pixels container-->
     <div class="container">
       <div id="grid" class="d-flex justify-content-center display-inline mt-5">
-        
         <!--<x-knob class="big" style="position:relative; left:62rem; top:38rem;z-index:1;"></x-knob>-->
         
       </div>
