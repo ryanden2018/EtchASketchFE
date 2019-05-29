@@ -279,20 +279,40 @@ document.addEventListener("DOMContentLoaded", e=>{
   
    gridDiv.append(resziedRender);
    
-   let dropMenu=document.querySelector('#dropdownMenuButton')
    
-   let allAs = document.querySelectorAll('a')
-   allAs.forEach(a=>{
-     a.addEventListener("click",function(e){
-       e.preventDefault()
-       console.log(e.target.innerText)
-       dropMenu.innerText=e.target.innerText
+
+   
+  // fetch and display users---------------------------------------
+  let allUsers
+  let dropDownMenu = document.querySelector('.dropdown-menu')
+  let dropMenu=document.querySelector('#dropdownMenuButton')
+  
+  
+  fetch('https://intense-island-31073.herokuapp.com/api/v1/users').then(res=>res.json()).then(obj=>{
+    allUsers = obj
+    allUsers.forEach(user=>{
+      dropDownMenu.innerHTML = dropDownMenu.innerHTML + `<a class="dropdown-item" href="#">${user.username}</a>`
+      
+         // dropdown menu interactions--------------------------------------
+      let allAs = document.querySelectorAll('a')
+      allAs.forEach(a=>{
+      a.addEventListener("click",function(e){
+      e.preventDefault()
+      console.log(e.target.innerText)
+      dropMenu.innerText=e.target.innerText
        
      })
    })
-   
-   
-   
+      
+    })
+  })
+  
+  
+  
+  
+
+ 
+  
    
 // DOMContentLoaded--------------------------------------------------------------
 });
