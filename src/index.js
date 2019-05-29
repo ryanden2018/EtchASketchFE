@@ -182,10 +182,15 @@ function patchSketch(sketchId) {
 
 let pageSketch;
 let keycodes = {};
-const baseUrl = "http://localhost:3000/api/v1/sketches"
+//const baseUrl = "http://localhost:3000/api/v1/sketches"
+const baseUrl = "https://intense-island-31073.herokuapp.com/api/v1/sketches"
 let knob;
 let knob2;
 let epsilon = 0.01;
+let curUserId = null;
+
+const width = 412;
+const height = 277;
 
 //////////////////////////////////////////////
 // document-level event listeners
@@ -227,11 +232,53 @@ document.addEventListener('keyup',e=>{
   delete keycodes[e.code];
 });
 
+function renderSketchesDropdown(userId) {
+  fetch(`https://intense-island-31073.herokuapp.com/api/v1/users/${userId}`).then(res=>res.json())
+  .then(data=> {
+    let sketchesDropdownDiv = document.querySelector("#sketchesDropdown")
+    sketchesDropdownDiv.innerHTML = "";//FIXME
+    let sketchesDropdown = document.createElement("select");
+    sketchesDropdownDiv.append(sketchesDropdown);
+    let newChoice = document.createElement("option");
+    newChoice.innerText = "New";
+    newChoice.value = "new";
+    sketchesDropdown.append(newChoice);
+    data.sketches.forEach( sketch => {
+      let choice = document.createElement("option");
+      choice.innerText = sketch.id;
+      choice.value = sketch.id;
+      sketchesDropdown.append(choice);
+    });
+
+    sketchesDropdown.addEventListener("change", e=>{
+      e.preventDefault();
+      if(e.target.value === "new") {
+        pageSketch.resetData(
+          {width:width,height:height,data:Sketch.zeroData(width,height),
+            pointerX:Math.round(width/2), pointerY:Math.round(height/2)}
+        );
+        pageSketch.update();
+      } else {
+        getSketch(parseInt(e.target.value));
+      }
+    });
+  });
+}
+
+let updateButton = document.querySelector("#updateButton");
+updateButton.addEventListener("click",e=>{
+  let sketchesDropdown = document.querySelector("#sketchesDropdown").children[0];
+  if(sketchesDropdown.value === "new") {
+    postSketch(curUserId);
+  } else {
+    let id = parseInt(sketchesDropdown.value);
+    patchSketch(id);
+  }
+});
+
 
 document.addEventListener("DOMContentLoaded", e=>{
 
-  let width = 412;
-  let height = 277;
 
   let knobVal = 0.0;
   let knob2Val = 0.0;
@@ -286,19 +333,18 @@ document.addEventListener("DOMContentLoaded", e=>{
   let allUsers
   let dropDownMenu = document.querySelector('.dropdown-menu')
   let dropMenu=document.querySelector('#dropdownMenuButton')
-  
-  
   fetch('https://intense-island-31073.herokuapp.com/api/v1/users').then(res=>res.json()).then(obj=>{
     allUsers = obj
     allUsers.forEach(user=>{
-      dropDownMenu.innerHTML = dropDownMenu.innerHTML + `<a class="dropdown-item" href="#">${user.username}</a>`
+      dropDownMenu.innerHTML = dropDownMenu.innerHTML + `<a class="dropdown-item" href="#" data-id="${user.id}">${user.username}</a>`
       
          // dropdown menu interactions--------------------------------------
       let allAs = document.querySelectorAll('a')
       allAs.forEach(a=>{
       a.addEventListener("click",function(e){
       e.preventDefault()
-      console.log(e.target.innerText)
+      curUserId = parseInt(e.target.getAttribute("data-id"));
+      renderSketchesDropdown(e.target.getAttribute("data-id"))
       dropMenu.innerText=e.target.innerText
        
      })
