@@ -102,7 +102,7 @@ if (!window.XKnob) {
 			// Giving the element focus to enable keyboard events.
 			// We need to do this here because we called preventDefault() and
 			// stopPropagation().
-			xknob.focus();
+			//xknob.focus();
 		}
 
 		// Should be attached to the document, because this event may happen

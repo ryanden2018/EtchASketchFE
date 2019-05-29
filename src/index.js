@@ -183,50 +183,57 @@ function patchSketch(sketchId) {
 let pageSketch;
 let keycodes = {};
 const baseUrl = "http://localhost:3000/api/v1/sketches"
-
+let knob;
+let knob2;
+let epsilon = 0.01;
 
 //////////////////////////////////////////////
 // document-level event listeners
 //////////////////////////////////////////////
 
 document.addEventListener('keydown', e=>{
+  e.preventDefault();
   keycodes[e.code] = 1;
   for( code in keycodes) {
     switch(code) {
       case 'ArrowUp':
       case 'KeyW':
         pageSketch.decrementY();
+        knob2.value -= epsilon;
         break;
       case 'ArrowDown':
       case 'KeyS':
         pageSketch.incrementY();
+        knob2.value += epsilon;
         break;
       case 'ArrowLeft':
       case 'KeyA':
         pageSketch.decrementX();
+        knob.value -= epsilon;
         break;
       case 'ArrowRight':
       case 'KeyD':
         pageSketch.incrementX();
+        knob.value += epsilon;
         break;
     }
   }
 });
 
 document.addEventListener('keyup',e=>{
+  e.preventDefault();
   delete keycodes[e.code];
 });
 
 
 document.addEventListener("DOMContentLoaded", e=>{
 
-
-
-
-  
-
   let width = 412;
   let height = 277;
+
+  let knobVal = 0.0;
+  let knob2Val = 0.0;
+
   pageSketch = new Sketch( {width:width,height:height,data:Sketch.zeroData(width,height),
       pointerX:Math.round(width/2), pointerY:Math.round(height/2)});
   let gridDiv = document.getElementById('grid')
@@ -236,19 +243,38 @@ document.addEventListener("DOMContentLoaded", e=>{
   resziedRender.style.width = `${(parseInt(resziedRender.style.width.split("px")[0])+130)}px`
   resziedRender.style.height = `${(parseInt(resziedRender.style.height.split("px")[0])+130)}px`
   
-  let knob=document.createElement('x-knob')
-  let knob2=document.createElement('x-knob')
+  knob=document.createElement('x-knob')
+  knob2=document.createElement('x-knob')
   knob.style="position:absolute; right:-3rem; top:31rem;z-index:1;"
   knob.setAttribute("class","big")
 
   knob2.style="position:absolute; left:-3rem; top:31rem;z-index:1;"
   knob2.setAttribute("class","big")
-  
+
+  knob.addEventListener("input", e=>{
+    if(e.target.value-knobVal > epsilon) {
+      pageSketch.incrementX();
+      knobVal = e.target.value;
+    } else if(knobVal-e.target.value > epsilon) {
+      pageSketch.decrementX();
+      knobVal = e.target.value;
+    }
+  });
+
+  knob2.addEventListener("input", e=>{
+    if(e.target.value-knob2Val > epsilon){
+      pageSketch.incrementY();
+      knob2Val = e.target.value;
+    } else if(knob2Val-e.target.value > epsilon) {
+      pageSketch.decrementY();
+      knob2Val = e.target.value;
+    }
+  });
   
   resziedRender.append(knob)
   resziedRender.append(knob2)
   
   
    gridDiv.append(resziedRender);
-   
+
 });
