@@ -192,30 +192,32 @@ let epsilon = 0.01;
 //////////////////////////////////////////////
 
 document.addEventListener('keydown', e=>{
-  e.preventDefault();
-  keycodes[e.code] = 1;
-  for( code in keycodes) {
-    switch(code) {
-      case 'ArrowUp':
-      case 'KeyW':
-        pageSketch.decrementY();
-        knob2.value -= epsilon;
-        break;
-      case 'ArrowDown':
-      case 'KeyS':
-        pageSketch.incrementY();
-        knob2.value += epsilon;
-        break;
-      case 'ArrowLeft':
-      case 'KeyA':
-        pageSketch.decrementX();
-        knob.value -= epsilon;
-        break;
-      case 'ArrowRight':
-      case 'KeyD':
-        pageSketch.incrementX();
-        knob.value += epsilon;
-        break;
+  if(document.activeElement.tagName !== "INPUT") {
+    e.preventDefault();
+    keycodes[e.code] = 1;
+    for( code in keycodes) {
+      switch(code) {
+        case 'ArrowUp':
+        case 'KeyW':
+          pageSketch.decrementY();
+          knob2.value -= epsilon;
+          break;
+        case 'ArrowDown':
+        case 'KeyS':
+          pageSketch.incrementY();
+          knob2.value += epsilon;
+          break;
+        case 'ArrowLeft':
+        case 'KeyA':
+          pageSketch.decrementX();
+          knob.value -= epsilon;
+          break;
+        case 'ArrowRight':
+        case 'KeyD':
+          pageSketch.incrementX();
+          knob.value += epsilon;
+          break;
+      }
     }
   }
 });
