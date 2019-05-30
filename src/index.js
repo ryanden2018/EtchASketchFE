@@ -290,6 +290,55 @@ deleteButton.addEventListener("click",e=>{
   }
 });
 
+let deleteUserButton = document.querySelector("#deleteUserButton");
+deleteUserButton.addEventListener("click",e=>{
+  fetch(`${baseUrl}/users/${curUserId}`,{method:"DELETE"}).then(res=>{
+    setTimeout(getUsers,3000);
+  });
+  curUserId = null;
+  document.querySelector("#sketchesDropdown").innerHTML = "";
+});
+
+let userCreateButton = document.querySelector("#userCreateButton");
+userCreateButton.addEventListener("click", e=>{
+  e.preventDefault();
+  let username = document.querySelector("#userCreate").value;
+  document.querySelector("#userCreate").value = "";
+  fetch(`${baseUrl}/users`, {method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({username:username}) })
+  .then( res =>  setTimeout( getUsers, 3000 ) );
+  document.querySelector("#sketchesDropdown").innerHTML = "";
+});
+
+function getUsers() {
+    // fetch and display users---------------------------------------
+    let allUsers
+    let dropDownMenu = document.querySelector('.dropdown-menu')
+    dropDownMenu.innerHTML = '';
+    let dropMenu=document.querySelector('#dropdownMenuButton')
+    dropMenu.innerHTML = 'Select a User';
+    fetch(`${baseUrl}/users`).then(res=>res.json()).then(obj=>{
+      allUsers = obj
+      allUsers.forEach(user=>{
+        dropDownMenu.innerHTML = dropDownMenu.innerHTML + `<a class="dropdown-item" href="#" data-id="${user.id}">${user.username}</a>`
+        
+           // dropdown menu interactions--------------------------------------
+        let allAs = document.querySelectorAll('a')
+        allAs.forEach(a=>{
+        a.addEventListener("click",function(e){
+        e.preventDefault()
+        curUserId = parseInt(e.target.getAttribute("data-id"));
+        renderSketchesDropdown(e.target.getAttribute("data-id"))
+        dropMenu.innerText=e.target.innerText
+         
+       })
+     })
+        
+      })
+    })
+}
+
 
 document.addEventListener("DOMContentLoaded", e=>{
 
@@ -343,31 +392,9 @@ document.addEventListener("DOMContentLoaded", e=>{
    
 
    
-  // fetch and display users---------------------------------------
-  let allUsers
-  let dropDownMenu = document.querySelector('.dropdown-menu')
-  let dropMenu=document.querySelector('#dropdownMenuButton')
-  fetch(`${baseUrl}/users`).then(res=>res.json()).then(obj=>{
-    allUsers = obj
-    allUsers.forEach(user=>{
-      dropDownMenu.innerHTML = dropDownMenu.innerHTML + `<a class="dropdown-item" href="#" data-id="${user.id}">${user.username}</a>`
-      
-         // dropdown menu interactions--------------------------------------
-      let allAs = document.querySelectorAll('a')
-      allAs.forEach(a=>{
-      a.addEventListener("click",function(e){
-      e.preventDefault()
-      curUserId = parseInt(e.target.getAttribute("data-id"));
-      renderSketchesDropdown(e.target.getAttribute("data-id"))
-      dropMenu.innerText=e.target.innerText
-       
-     })
-   })
-      
-    })
-  })
+
   
-  
+  getUsers();
   
   
 
