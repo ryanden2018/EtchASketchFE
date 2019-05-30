@@ -175,6 +175,11 @@ function patchSketch(sketchId) {
   });
 }
 
+// delete current sketch
+function deleteSketch(sketchId) {
+  fetch(`${baseUrl}/${sketchId}`, { method:"DELETE" });
+}
+
 
 //////////////////////////////////////////////
 // globals
@@ -273,6 +278,15 @@ updateButton.addEventListener("click",e=>{
   } else {
     let id = parseInt(sketchesDropdown.value);
     patchSketch(id);
+  }
+});
+
+let deleteButton = document.querySelector("#deleteButton");
+deleteButton.addEventListener("click",e=>{
+  let sketchesDropdown = document.querySelector("#sketchesDropdown").children[0];
+  if(!(sketchesDropdown.value === "new")) {
+    let id = parseInt(sketchesDropdown.value);
+    deleteSketch(id);
   }
 });
 
