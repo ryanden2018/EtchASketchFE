@@ -296,6 +296,19 @@ deleteUserButton.addEventListener("click",e=>{
     setTimeout(getUsers,3000);
   });
   curUserId = null;
+  document.querySelector("#sketchesDropdown").innerHTML = "";
+});
+
+let userCreateButton = document.querySelector("#userCreateButton");
+userCreateButton.addEventListener("click", e=>{
+  e.preventDefault();
+  let username = document.querySelector("#userCreate").value;
+  document.querySelector("#userCreate").value = "";
+  fetch(`${baseUrl}/users`, {method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({username:username}) })
+  .then( res =>  setTimeout( getUsers, 3000 ) );
+  document.querySelector("#sketchesDropdown").innerHTML = "";
 });
 
 function getUsers() {
