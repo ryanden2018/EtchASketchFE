@@ -150,14 +150,14 @@ class Sketch {
 
 // load sketch given by sketch id
 function getSketch(sketchId) {
-  fetch(`${baseUrl}/${sketchId}`)
+  fetch(`${baseUrl}/sketches/${sketchId}`)
   .then( res => res.json() )
   .then( data => {pageSketch.resetData(data);pageSketch.update();} );
 }
 
 // save current sketch to user_id (post)
 function postSketch(userId) {
-  fetch(`${baseUrl}`, {
+  fetch(`${baseUrl}/sketches`, {
     method: 'POST',
     headers: {'Content-Type': 'application/json',
               'Accept': 'application/json' },
@@ -167,7 +167,7 @@ function postSketch(userId) {
 
 // save current sketch to sketch_id (patch)
 function patchSketch(sketchId) {
-  fetch(`${baseUrl}/${sketchId}`, {
+  fetch(`${baseUrl}/sketches/${sketchId}`, {
     method:'PATCH',
     headers:{'Content-Type':'application/json',
             'Accept':'application/json' },
@@ -177,7 +177,7 @@ function patchSketch(sketchId) {
 
 // delete current sketch
 function deleteSketch(sketchId) {
-  fetch(`${baseUrl}/${sketchId}`, { method:"DELETE" });
+  fetch(`${baseUrl}/sketches/${sketchId}`, { method:"DELETE" });
 }
 
 
@@ -187,8 +187,8 @@ function deleteSketch(sketchId) {
 
 let pageSketch;
 let keycodes = {};
-//const baseUrl = "http://localhost:3000/api/v1/sketches"
-const baseUrl = "https://intense-island-31073.herokuapp.com/api/v1/sketches"
+const baseUrl = "http://localhost:3000/api/v1"
+//const baseUrl = "https://intense-island-31073.herokuapp.com/api/v1/sketches"
 let knob;
 let knob2;
 let epsilon = 0.01;
@@ -238,7 +238,7 @@ document.addEventListener('keyup',e=>{
 });
 
 function renderSketchesDropdown(userId) {
-  fetch(`https://intense-island-31073.herokuapp.com/api/v1/users/${userId}`).then(res=>res.json())
+  fetch(`${baseUrl}/users/${userId}`).then(res=>res.json())
   .then(data=> {
     let sketchesDropdownDiv = document.querySelector("#sketchesDropdown")
     sketchesDropdownDiv.innerHTML = "";//FIXME
@@ -347,7 +347,7 @@ document.addEventListener("DOMContentLoaded", e=>{
   let allUsers
   let dropDownMenu = document.querySelector('.dropdown-menu')
   let dropMenu=document.querySelector('#dropdownMenuButton')
-  fetch('https://intense-island-31073.herokuapp.com/api/v1/users').then(res=>res.json()).then(obj=>{
+  fetch(`${baseUrl}/users`).then(res=>res.json()).then(obj=>{
     allUsers = obj
     allUsers.forEach(user=>{
       dropDownMenu.innerHTML = dropDownMenu.innerHTML + `<a class="dropdown-item" href="#" data-id="${user.id}">${user.username}</a>`
