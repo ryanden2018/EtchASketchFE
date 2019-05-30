@@ -287,6 +287,9 @@ deleteButton.addEventListener("click",e=>{
   if(!(sketchesDropdown.value === "new")) {
     let id = parseInt(sketchesDropdown.value);
     deleteSketch(id).then( data=>renderSketchesDropdown(curUserId));
+    pageSketch.resetData({width:width,height:height,data:Sketch.zeroData(width,height),
+      pointerX:Math.round(width/2), pointerY:Math.round(height/2)});
+    pageSketch.update();
   }
 });
 
@@ -414,5 +417,6 @@ document.getElementById("deleteButton").addEventListener("mousedown",function(e)
 document.getElementById("deleteButton").addEventListener("mouseup",function(e){
   var element = document.getElementById("gd");
   element.classList.remove("shake");
+
 
 })
