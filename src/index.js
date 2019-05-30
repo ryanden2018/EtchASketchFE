@@ -150,14 +150,14 @@ class Sketch {
 
 // load sketch given by sketch id
 function getSketch(sketchId) {
-  fetch(`${baseUrl}/sketches/${sketchId}`)
+  return fetch(`${baseUrl}/sketches/${sketchId}`)
   .then( res => res.json() )
   .then( data => {pageSketch.resetData(data);pageSketch.update();} );
 }
 
 // save current sketch to user_id (post)
 function postSketch(userId) {
-  fetch(`${baseUrl}/sketches`, {
+  return fetch(`${baseUrl}/sketches`, {
     method: 'POST',
     headers: {'Content-Type': 'application/json',
               'Accept': 'application/json' },
@@ -167,7 +167,7 @@ function postSketch(userId) {
 
 // save current sketch to sketch_id (patch)
 function patchSketch(sketchId) {
-  fetch(`${baseUrl}/sketches/${sketchId}`, {
+  return fetch(`${baseUrl}/sketches/${sketchId}`, {
     method:'PATCH',
     headers:{'Content-Type':'application/json',
             'Accept':'application/json' },
@@ -177,7 +177,7 @@ function patchSketch(sketchId) {
 
 // delete current sketch
 function deleteSketch(sketchId) {
-  fetch(`${baseUrl}/sketches/${sketchId}`, { method:"DELETE" });
+  return fetch(`${baseUrl}/sketches/${sketchId}`, { method:"DELETE" });
 }
 
 
@@ -274,7 +274,7 @@ let updateButton = document.querySelector("#updateButton");
 updateButton.addEventListener("click",e=>{
   let sketchesDropdown = document.querySelector("#sketchesDropdown").children[0];
   if(sketchesDropdown.value === "new") {
-    postSketch(curUserId);
+    postSketch(curUserId).then(data=>renderSketchesDropdown(curUserId));
   } else {
     let id = parseInt(sketchesDropdown.value);
     patchSketch(id);
@@ -286,7 +286,7 @@ deleteButton.addEventListener("click",e=>{
   let sketchesDropdown = document.querySelector("#sketchesDropdown").children[0];
   if(!(sketchesDropdown.value === "new")) {
     let id = parseInt(sketchesDropdown.value);
-    deleteSketch(id);
+    deleteSketch(id).then( data=>renderSketchesDropdown(curUserId));
   }
 });
 
