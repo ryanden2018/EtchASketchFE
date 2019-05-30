@@ -403,3 +403,16 @@ document.addEventListener("DOMContentLoaded", e=>{
    
 // DOMContentLoaded--------------------------------------------------------------
 });
+
+
+document.getElementById("deleteButton").addEventListener("mousedown",function(e){
+  var element = document.getElementById("gd");
+  element.classList.add("shake");
+
+})
+
+document.getElementById("deleteButton").addEventListener("mouseup",function(e){
+  var element = document.getElementById("gd");
+  element.classList.remove("shake");
+
+})
