@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="./src/styles.css">
-    <link href="./src/xknob.css" type="text/css" rel="stylesheet">
-    <meta charset="UTF-8">
-    <title>Etch-A-Fetch</title>
-    
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900,900i&display=swap" rel="stylesheet">
-    
-    <link rel="icon" href="./src/etch-a-sketch.png">
-    
-    <!--svg----------------------------->
-    
-    <svg style="display: none;">
+
+<head>
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="./src/styles.css">
+	<link href="./src/xknob.css" type="text/css" rel="stylesheet">
+	<meta charset="UTF-8">
+	<title>Etch-A-Fetch</title>
+
+	<link href="https://fonts.googleapis.com/css?family=Lato:400,700,900,900i&display=swap" rel="stylesheet">
+
+	<link rel="icon" href="./src/etch-a-sketch.png">
+
+	<!--svg----------------------------->
+
+	<svg style="display: none;">
 	<!-- Most of the colors are from Tango palette -->
 	<defs id="sample_gfx">
 		<symbol id="circle-with-dot" viewBox="-6 -6 12 12">
@@ -356,95 +357,73 @@
 		</symbol>
 	</defs>
 </svg>
-   <!--svg----------------------------->
-    
-    
-  </head>
-  <body>
-    
-    <nav class="navbar navbar-dark bg-dark">
-  <!-- Navbar content -->
-  
-	<!-- Example split danger button -->
+	<!--svg----------------------------->
+
+
+</head>
+
+<body>
+
+	<nav class="navbar navbar-dark bg-dark">
+		<!-- Navbar content -->
+
+		<!-- Example split danger button -->
+		<div class="nav-item">
 		<div class="dropdown nav-item">
-  			<button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
    				 Select a User
   			</button>
-<<<<<<< HEAD
-		  	<div class="dropdown-menu inline" aria-labelledby="dropdownMenuButton">
-			    <a class="dropdown-item" href="#">User1</a>
-			    <a class="dropdown-item" href="#">User2</a>
-			    <a class="dropdown-item" href="#">User3</a>
-=======
-		  	<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
->>>>>>> ec350418af5ed5b0b3fc0f450dd24570bebba159
-		  </div>
-		</div>
-		
-		<!----sketches---------------------->
 
-		<div class="btn-group">
-		  <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		    Select Sketch
-		  </button>
-		  <div class="dropdown-menu">
-		    <option class="dropdown-item">1</option>
-			<option class="dropdown-item">2</option>
-			<option class="dropdown-item">3</option>
-		  </div>
-		  	<button id="updateButton">Save/Update</button>
-			<button id="deleteButton">Delete </button>
+			<div class="dropdown-menu inline" aria-labelledby="dropdownMenuButton">
+			</div>
+			<button id="deleteUserButton">Delete User</button>
 		</div>
 		
-		
-		
-		<!--user create------------------------------------->
-		
-		<div class="nav-item">
+		</div>
+				<div class="nav-item">
 			<form class="form-inline">
-			<input type="text" id="userCreate" placeholder="Username">
-<<<<<<< HEAD
-			<button type="submit" class="btn btn-warning">Create User</button>
-=======
-			<button id="userCreateButton" type="submit" class="btn btn-primary">Create User</button>
->>>>>>> ec350418af5ed5b0b3fc0f450dd24570bebba159
+				<input type="text" id="userCreate" placeholder="Username">
+				<button id="userCreateButton" type="submit" class="btn btn-warning">Create User</button>
 			</form>
 		</div>
-  
-  
+
+		<!----sketches---------------------->
+		<div class="nav-item">
+			<div class="btn-group">
+				<button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		    Select Sketch
+		  </button>
+				<div class="dropdown-menu">
+				</div>
+
+			</div>
+			<button id="updateButton">Save/Update</button>
+			<button id="deleteButton">Delete </button>
+		</div>
+
+
+
 	</nav>
-    
-    <!--top of etch-->
 
-    
-    <!--pixels container-->
-    <div class="container">
-      <div id="grid" class="d-flex justify-content-center display-inline mt-5">
-        <!--<x-knob class="big" style="position:relative; left:62rem; top:38rem;z-index:1;"></x-knob>-->
-        
-      </div>
-      
-		</div>
-<<<<<<< HEAD
-=======
+	<!--top of etch-->
 
 
-		<div id="sketchesDropdown">
-			
+	<!--pixels container-->
+	<div class="container">
+		<div id="grid" class="d-flex justify-content-center display-inline mt-5">
+			<!--<x-knob class="big" style="position:relative; left:62rem; top:38rem;z-index:1;"></x-knob>-->
+
 		</div>
 
-		<button id="updateButton">Save/Update</button>
-		<button id="deleteButton">Delete Sketch</button>
-		<button id="deleteUserButton">Delete User</button>
-  
-  
->>>>>>> ec350418af5ed5b0b3fc0f450dd24570bebba159
-  
-    <!--bootstrap JS files-->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script src="src/index.js"></script>
-    <script src="./src/xknob.js" type="text/javascript" async></script>
-  </body>
+	</div>
+
+
+	<!--bootstrap JS files-->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<script src="src/index.js"></script>
+	<script src="./src/xknob.js" type="text/javascript" async></script>
+</body>
+
 </html>
