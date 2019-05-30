@@ -369,18 +369,18 @@
 
 		<!-- Example split danger button -->
 		<div class="nav-item">
-		<div class="dropdown nav-item">
-			<button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<div class="dropdown nav-item">
+				<button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
    				 Select a User
   			</button>
 
-			<div class="dropdown-menu inline" aria-labelledby="dropdownMenuButton">
+				<div class="dropdown-menu inline" aria-labelledby="dropdownMenuButton">
+				</div>
+				<button id="deleteUserButton">Delete User</button>
 			</div>
-			<button id="deleteUserButton">Delete User</button>
+
 		</div>
-		
-		</div>
-				<div class="nav-item">
+		<div class="nav-item">
 			<form class="form-inline">
 				<input type="text" id="userCreate" placeholder="Username">
 				<button id="userCreateButton" type="submit" class="btn btn-warning">Create User</button>
@@ -390,19 +390,26 @@
 		<!----sketches---------------------->
 		<div class="nav-item">
 			<div class="btn-group">
-				<button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		    Select Sketch
-		  </button>
-				<div class="dropdown-menu">
-				</div>
-
+			<a class="nav-link disabled text-warning" href="#">Select Sketch</a>
+			<div class="dropdown nav-item">
+				
+				<form id="sketchesDropdown">
+					
+					<select>
+						
+						<option>1</option>
+						<option>1</option>
+						<option>1</option>
+					</select>
+				</form>
 			</div>
-			<button id="updateButton">Save/Update</button>
-			<button id="deleteButton">Delete </button>
+
+
+			
 		</div>
-
-
-
+		<button id="updateButton">Save/Update</button>
+			<button id="deleteButton">Delete </button>
+</div>
 	</nav>
 
 	<!--top of etch-->
