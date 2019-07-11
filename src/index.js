@@ -1,3 +1,29 @@
+// knob rgb(186,189,182)
+// knob border rgb(46,52,54)
+
+
+class Knob {
+  constructor(context,xc,yc,radius, theta = 0.0) {
+    this.context = context;
+    this.xc = xc;
+    this.yc = yc;
+    this.radius = radius;
+    this.theta = theta;
+  }
+
+  draw() {
+    this.context.fillStyle = "rgb(46,52,54)";
+    this.context.beginPath();
+    this.context.arc(this.xc,this.yc,this.radius+2,0,2*Math.PI);
+    this.context.fill();
+    this.context.fillStyle = "rgb(186,189,182)";
+    this.context.beginPath();
+    this.context.arc(this.xc,this.yc,this.radius,0,2*Math.PI);
+    this.context.fill();
+  }
+}
+
+
 // Sketch class
 // holds data for a Sketch and provides rendering functionality
 
@@ -15,6 +41,11 @@ class Sketch {
     this.imgdata = this.context.createImageData(Sketch.pxw()*this.width, Sketch.pxh()*this.height)
     this.context.fillStyle="#FF0000";
     this.context.fillRect(0,0,954,684);
+
+    this.leftKnob = new Knob(this.context,65,619,48);
+    this.rightKnob = new Knob(this.context,889,619,48);
+    this.leftKnob.draw();
+    this.rightKnob.draw();
   }
 
   // reset the object to the properties of given sketch
@@ -87,6 +118,8 @@ class Sketch {
       }
     }
     this.context.putImageData(this.imgdata,65,65);
+    this.leftKnob.draw();
+    this.rightKnob.draw();
   }
 
   // update this.div to reflect altered internal state
@@ -107,6 +140,8 @@ class Sketch {
       }
     }
     this.context.putImageData(this.imgdata,65,65);
+    this.leftKnob.draw();
+    this.rightKnob.draw();
   }
 
 
