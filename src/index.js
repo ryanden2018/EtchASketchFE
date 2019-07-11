@@ -160,11 +160,13 @@ class Sketch {
   // increment/decrement pointer X position
   incrementX() {
     this.image[this.pointerY][this.pointerX] = 1;
+    this.rightKnob.theta += 0.05;
     this.update();
     this.pointerX = Math.min(this.pointerX+1,this.width-1);
   }
   decrementX() {
     this.image[this.pointerY][this.pointerX] = 1;
+    this.rightKnob.theta -= 0.05;
     this.update();
     this.pointerX = Math.max(this.pointerX-1,0);
   }
@@ -172,11 +174,13 @@ class Sketch {
   // increment/decrement pointer Y position
   incrementY() {
     this.image[this.pointerY][this.pointerX] = 1;
+    this.leftKnob.theta += 0.05;
     this.update();
     this.pointerY = Math.min(this.pointerY+1,this.height-1);
   }
   decrementY() {
     this.image[this.pointerY][this.pointerX] = 1;
+    this.leftKnob.theta -= 0.05;
     this.update();
     this.pointerY = Math.max(this.pointerY-1,0);
   }
