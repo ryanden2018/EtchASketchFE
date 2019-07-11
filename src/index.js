@@ -3,7 +3,7 @@
 
 
 class Knob {
-  constructor(context,xc,yc,radius, theta = 0.0) {
+  constructor(context,xc,yc,radius, theta = -Math.PI/2.0) {
     this.context = context;
     this.xc = xc;
     this.yc = yc;
@@ -16,10 +16,22 @@ class Knob {
     this.context.beginPath();
     this.context.arc(this.xc,this.yc,this.radius+2,0,2*Math.PI);
     this.context.fill();
+
     this.context.fillStyle = "rgb(186,189,182)";
     this.context.beginPath();
     this.context.arc(this.xc,this.yc,this.radius,0,2*Math.PI);
     this.context.fill();
+
+    let startX = this.xc + 0.2*this.radius*Math.cos(this.theta);
+    let startY = this.yc + 0.2*this.radius*Math.sin(this.theta);
+    let endX = this.xc + 0.9*this.radius*Math.cos(this.theta);
+    let endY = this.yc + 0.9*this.radius*Math.sin(this.theta);
+    this.context.strokeStyle = "rgb(46,52,54)";
+    this.context.lineWidth=4;
+    this.context.beginPath();
+    this.context.moveTo(startX,startY);
+    this.context.lineTo(endX,endY);
+    this.context.stroke();
   }
 }
 
