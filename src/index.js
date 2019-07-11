@@ -9,6 +9,12 @@ class Sketch {
     this.image = this.parseString(sketch.data);
     this.pointerX = sketch.pointerX;
     this.pointerY = sketch.pointerY;
+
+    this.canvas = document.querySelector("#es");
+    this.context = this.canvas.getContext('2d');
+    this.imgdata = this.context.createImageData(Sketch.pxw()*this.width, Sketch.pxh()*this.height)
+    this.context.fillStyle="#FF0000";
+    this.context.fillRect(0,0,954,684);
   }
 
   // reset the object to the properties of given sketch
@@ -88,16 +94,53 @@ class Sketch {
         }
       }
     }
+
+    for(let i=0; i<Sketch.pxh()*this.height; i++) {
+      for(let j= 0; j < Sketch.pxw()*this.width; j++) {
+        let idx0 = (i*Sketch.pxw()*this.width+j)*4;
+        let val;
+        if( this.image[Math.floor(i/Sketch.pxh())][Math.floor(j/Sketch.pxw())] === 1) {
+          val = 0;
+        } else {
+          val = 128;
+        }
+        this.imgdata.data[idx0] = val;
+        this.imgdata.data[idx0+1] = val;
+        this.imgdata.data[idx0+2] = val;
+        this.imgdata.data[idx0+3] = 255;
+      }
+    }
+    this.context.putImageData(this.imgdata,65,65);
+
+
     return this.div;
   }
 
   // update this.div to reflect altered internal state
   update() {
-    for(let i=0; i<this.height; i++) {
-      for(let j=0; j<this.width; j++) {
-        this.updatePixel(i,j);
+    // for(let i=0; i<this.height; i++) {
+    //   for(let j=0; j<this.width; j++) {
+    //     this.updatePixel(i,j);
+    //   }
+    // }
+    for(let i=0; i<Sketch.pxh()*this.height; i++) {
+      for(let j= 0; j < Sketch.pxw()*this.width; j++) {
+        let idx0 = (i*Sketch.pxw()*this.width+j)*4;
+        let val;
+        if( this.image[Math.floor(i/Sketch.pxh())][Math.floor(j/Sketch.pxw())] === 1) {
+          val = 0;
+        } else {
+          val = 128;
+        }
+        this.imgdata.data[idx0] = val;
+        this.imgdata.data[idx0+1] = val;
+        this.imgdata.data[idx0+2] = val;
+        this.imgdata.data[idx0+3] = 255;
       }
     }
+    this.context.putImageData(this.imgdata,65,65);
+
+
   }
 
   // update the rendering of pixel at (i,j)
@@ -121,11 +164,13 @@ class Sketch {
   incrementX() {
     this.image[this.pointerY][this.pointerX] = 1;
     this.updatePixel(this.pointerY,this.pointerX);
+    this.update();
     this.pointerX = Math.min(this.pointerX+1,this.width-1);
   }
   decrementX() {
     this.image[this.pointerY][this.pointerX] = 1;
     this.updatePixel(this.pointerY,this.pointerX);
+    this.update();
     this.pointerX = Math.max(this.pointerX-1,0);
   }
 
@@ -133,11 +178,13 @@ class Sketch {
   incrementY() {
     this.image[this.pointerY][this.pointerX] = 1;
     this.updatePixel(this.pointerY,this.pointerX);
+    this.update();
     this.pointerY = Math.min(this.pointerY+1,this.height-1);
   }
   decrementY() {
     this.image[this.pointerY][this.pointerX] = 1;
     this.updatePixel(this.pointerY,this.pointerX);
+    this.update();
     this.pointerY = Math.max(this.pointerY-1,0);
   }
 }
@@ -412,12 +459,13 @@ document.addEventListener("DOMContentLoaded", e=>{
 document.getElementById("deleteButton").addEventListener("mousedown",function(e){
   var element = document.getElementById("gd");
   element.classList.add("shake");
+  document.getElementById("es").classList.add("shake");
 
 })
 
 document.getElementById("deleteButton").addEventListener("mouseup",function(e){
   var element = document.getElementById("gd");
   element.classList.remove("shake");
-
+  document.getElementById("es").classList.remove("shake");
 
 })
