@@ -24,14 +24,24 @@ class Knob {
 
     let startX = this.xc + 0.2*this.radius*Math.cos(this.theta);
     let startY = this.yc + 0.2*this.radius*Math.sin(this.theta);
-    let endX = this.xc + 0.9*this.radius*Math.cos(this.theta);
-    let endY = this.yc + 0.9*this.radius*Math.sin(this.theta);
+    let endX = this.xc + 0.85*this.radius*Math.cos(this.theta);
+    let endY = this.yc + 0.85*this.radius*Math.sin(this.theta);
     this.context.strokeStyle = "rgb(46,52,54)";
     this.context.lineWidth=4;
     this.context.beginPath();
     this.context.moveTo(startX,startY);
     this.context.lineTo(endX,endY);
     this.context.stroke();
+
+    this.context.fillStyle = "rgb(46,52,54)";
+    this.context.beginPath();
+    this.context.arc(startX,startY,2,0,2*Math.PI);
+    this.context.fill();
+
+    this.context.fillStyle = "rgb(46,52,54)";
+    this.context.beginPath();
+    this.context.arc(endX,endY,2,0,2*Math.PI);
+    this.context.fill();
   }
 }
 
@@ -160,13 +170,11 @@ class Sketch {
   // increment/decrement pointer X position
   incrementX() {
     this.image[this.pointerY][this.pointerX] = 1;
-    this.rightKnob.theta += 0.05;
     this.update();
     this.pointerX = Math.min(this.pointerX+1,this.width-1);
   }
   decrementX() {
     this.image[this.pointerY][this.pointerX] = 1;
-    this.rightKnob.theta -= 0.05;
     this.update();
     this.pointerX = Math.max(this.pointerX-1,0);
   }
@@ -174,13 +182,11 @@ class Sketch {
   // increment/decrement pointer Y position
   incrementY() {
     this.image[this.pointerY][this.pointerX] = 1;
-    this.leftKnob.theta += 0.05;
     this.update();
     this.pointerY = Math.min(this.pointerY+1,this.height-1);
   }
   decrementY() {
     this.image[this.pointerY][this.pointerX] = 1;
-    this.leftKnob.theta -= 0.05;
     this.update();
     this.pointerY = Math.max(this.pointerY-1,0);
   }
@@ -225,6 +231,81 @@ function deleteSketch(sketchId) {
 }
 
 
+
+//////////////////////////////////////////////
+// mouse listeners
+//////////////////////////////////////////////
+
+document.querySelector("#es").addEventListener("mousedown", e=> {
+  e.preventDefault();
+  let mousex = e.pageX - document.querySelector("#es").offsetLeft;
+  let mousey = e.pageY - document.querySelector("#es").offsetTop;
+  if( Math.sqrt( Math.pow(mousex-65,2) + Math.pow(mousey-619,2) ) < 48 ) {
+    mouseDownOnLeftKnob = true;
+  }
+  if( Math.sqrt( Math.pow(mousex-889,2) + Math.pow(mousey-619,2) ) < 48 ) {
+    mouseDownOnRightKnob = true;
+  }
+});
+
+function angle(x,y) {
+  if(x>0) {
+    return Math.atan(y/x);
+  }
+  if((x<0) && (y>0)) {
+    return Math.PI - Math.atan(Math.abs(y/x));
+  }
+  if((x<0)&&(y<0)) {
+    return -Math.PI + Math.atan(y/x);
+  }
+}
+
+document.querySelector("#es").addEventListener("mousemove", e => {
+  e.preventDefault();
+  if(mouseDownOnLeftKnob) {
+    let mousex = e.pageX - document.querySelector("#es").offsetLeft;
+    let mousey = e.pageY - document.querySelector("#es").offsetTop;
+    let theta0 = angle(mousex-65,mousey-619)
+    let theta1 = angle(mousex+e.movementX-65,mousey+e.movementY-619);
+    let dtheta = theta1 - theta0;
+    if(Math.abs(dtheta) < Math.PI) {
+      pageSketch.leftKnob.theta += dtheta;
+      if(dtheta > 0) {
+        pageSketch.incrementY();
+      } else {
+        pageSketch.decrementY();
+      }
+    }
+  }
+  if(mouseDownOnRightKnob) {
+    let mousex = e.pageX - document.querySelector("#es").offsetLeft;
+    let mousey = e.pageY - document.querySelector("#es").offsetTop;
+    let theta0 = angle(mousex-889,mousey-619)
+    let theta1 = angle(mousex+e.movementX-889,mousey+e.movementY-619);
+    let dtheta = theta1 - theta0;
+    if(Math.abs(dtheta) < Math.PI) {
+      pageSketch.rightKnob.theta += dtheta;
+      if(dtheta > 0) {
+        pageSketch.incrementX();
+      } else {
+        pageSketch.decrementX();
+      }
+    }
+  }
+});
+
+document.querySelector("#es").addEventListener("mouseup", e => {
+  e.preventDefault();
+  mouseDownOnLeftKnob = false;
+  mouseDownOnRightKnob = false;
+});
+
+document.querySelector("#es").addEventListener("mouseleave", e=> {
+  e.preventDefault();
+  mouseDownOnLeftKnob = false;
+  mouseDownOnRightKnob = false;
+});
+
 //////////////////////////////////////////////
 // globals
 //////////////////////////////////////////////
@@ -239,6 +320,10 @@ let curUserId = null;
 const width = 412;
 const height = 277;
 
+let mouseDownOnLeftKnob = false;
+let mouseDownOnRightKnob = false;
+
+
 //////////////////////////////////////////////
 // document-level event listeners
 //////////////////////////////////////////////
@@ -251,18 +336,22 @@ document.addEventListener('keydown', e=>{
       switch(code) {
         case 'ArrowUp':
         case 'KeyW':
+          pageSketch.leftKnob.theta -= 0.05;
           pageSketch.decrementY();
           break;
         case 'ArrowDown':
         case 'KeyS':
+          pageSketch.leftKnob.theta += 0.05;
           pageSketch.incrementY();
           break;
         case 'ArrowLeft':
         case 'KeyA':
+          pageSketch.rightKnob.theta -= 0.05;
           pageSketch.decrementX();
           break;
         case 'ArrowRight':
         case 'KeyD':
+          pageSketch.rightKnob.theta += 0.05;
           pageSketch.incrementX();
           break;
       }
@@ -402,3 +491,5 @@ document.getElementById("deleteButton").addEventListener("mousedown",function(e)
 document.getElementById("deleteButton").addEventListener("mouseup",function(e){
   document.getElementById("es").classList.remove("shake");
 })
+
+//document.addEventListener('scroll', function() { window.scrollTo(0,0) } );
